@@ -1,725 +1,1163 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0645c0">
 
-<title>InspiringPG PFP Maker</title>
+    <meta charset="UTF-8">
 
-<style>
-* {
-    box-sizing: border-box;
-}
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    background: #f1f5fb;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #12336b;
-    display: flex;
-    justify-content: center;
-    padding: 25px 12px;
-}
+    <meta
+        name="theme-color"
+        content="#0b3d91"
+    >
 
-.container {
-    width: 100%;
-    max-width: 650px;
-    text-align: center;
-}
+    <meta
+        name="description"
+        content="Create your official InspiringPG profile picture."
+    >
 
-h1 {
-    margin: 5px 0 8px;
-    font-size: 30px;
-    color: #073b82;
-}
+    <title>InspiringPG PFP Maker</title>
 
-.subtitle {
-    margin: 0 0 20px;
-    color: #58708f;
-    font-size: 16px;
-}
 
-/* PREVIEW */
+    <style>
 
-.preview-box {
-    background: white;
-    border-radius: 25px;
-    padding: 22px;
-    box-shadow: 0 10px 35px rgba(0,0,0,.10);
-}
+        * {
+            box-sizing: border-box;
+        }
 
-.canvas-wrap {
-    width: min(90vw, 560px);
-    height: min(90vw, 560px);
-    margin: auto;
-    position: relative;
-}
 
-canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-/* BUTTONS */
 
-button,
-.upload-label {
-    width: 100%;
-    border: none;
-    border-radius: 17px;
-    padding: 18px;
-    margin-top: 15px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    display: block;
-}
+        body {
 
-.upload-label {
-    background: #0757c9;
-    color: white;
-}
+            margin: 0;
 
-.download {
-    background: #fbc21b;
-    color: #073b82;
-}
+            min-height: 100vh;
 
-.reset {
-    background: #e9eef7;
-    color: #12336b;
-}
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
 
-input {
-    display: none;
-}
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef5ff 0%,
+                    #ffffff 45%,
+                    #e5efff 100%
+                );
 
-.status {
-    min-height: 25px;
-    margin-top: 12px;
-    color: #d13a3a;
-    font-size: 14px;
-}
+            color: #123b78;
 
-/* MOBILE */
+            padding:
+                25px
+                15px
+                40px;
+        }
 
-@media(max-width:500px) {
 
-    body {
-        padding: 15px 8px;
-    }
+        /* =========================================
+           MAIN CONTAINER
+        ========================================= */
 
-    .preview-box {
-        padding: 14px;
-        border-radius: 20px;
-    }
+        .container {
 
-    h1 {
-        font-size: 25px;
-    }
+            width: 100%;
 
-    .subtitle {
-        font-size: 14px;
-    }
+            max-width: 760px;
 
-    button,
-    .upload-label {
-        font-size: 16px;
-        padding: 16px;
-    }
-}
-</style>
+            margin: auto;
+
+            background: #ffffff;
+
+            border-radius: 30px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0, 50, 120, 0.15);
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .header {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .header h1 {
+
+            margin: 0;
+
+            font-size: 32px;
+
+            font-weight: 800;
+
+            color: #103b78;
+        }
+
+
+        .header h1 span {
+
+            color: #145dcc;
+        }
+
+
+        .subtitle {
+
+            margin-top: 10px;
+
+            color: #687991;
+
+            font-size: 16px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================================
+           PREVIEW AREA
+        ========================================= */
+
+        .preview-wrapper {
+
+            width: 100%;
+
+            max-width: 650px;
+
+            margin: 0 auto;
+
+            padding: 10px;
+        }
+
+
+        .preview {
+
+            position: relative;
+
+            width: 100%;
+
+            aspect-ratio: 1 / 1;
+
+            overflow: hidden;
+
+            border-radius: 50%;
+
+            background: #e9eef6;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 45, 100, 0.15);
+        }
+
+
+        /* =========================================
+           PHOTO
+        ========================================= */
+
+        #photo {
+
+            position: absolute;
+
+            width: 65%;
+
+            height: 65%;
+
+            left: 17.5%;
+
+            top: 17.5%;
+
+            object-fit: cover;
+
+            border-radius: 50%;
+
+            display: none;
+
+            z-index: 2;
+        }
+
+
+        /* =========================================
+           PLACEHOLDER
+        ========================================= */
+
+        .placeholder {
+
+            position: absolute;
+
+            width: 65%;
+
+            height: 65%;
+
+            left: 17.5%;
+
+            top: 17.5%;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #f3f6fa,
+                    #e1e8f2
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            color: #7b899b;
+
+            font-size: 18px;
+
+            line-height: 1.5;
+
+            z-index: 1;
+
+            border:
+                2px solid
+                rgba(20, 90, 190, 0.08);
+        }
+
+
+        /* =========================================
+           FRAME
+        ========================================= */
+
+        .frame {
+
+            position: absolute;
+
+            width: 100%;
+
+            height: 100%;
+
+            left: 0;
+
+            top: 0;
+
+            object-fit: contain;
+
+            z-index: 3;
+
+            pointer-events: none;
+
+            user-select: none;
+        }
+
+
+        /* =========================================
+           BUTTONS
+        ========================================= */
+
+        .buttons {
+
+            margin-top: 25px;
+        }
+
+
+        .upload-label,
+        .download-button {
+
+            width: 100%;
+
+            min-height: 58px;
+
+            border-radius: 17px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                filter 0.2s ease;
+
+            user-select: none;
+        }
+
+
+        /* BLUE BUTTON */
+
+        .upload-label {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0d58c9,
+                    #1747a5
+                );
+
+            color: white;
+
+            box-shadow:
+                0 8px 20px
+                rgba(13, 88, 201, 0.25);
+        }
+
+
+        .upload-label:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 25px
+                rgba(13, 88, 201, 0.3);
+        }
+
+
+        .upload-label:active {
+
+            transform: scale(0.98);
+        }
+
+
+        /* YELLOW BUTTON */
+
+        .download-button {
+
+            margin-top: 13px;
+
+            border: none;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffc400,
+                    #ffae00
+                );
+
+            color: #123b78;
+
+            box-shadow:
+                0 8px 20px
+                rgba(255, 183, 0, 0.25);
+        }
+
+
+        .download-button:hover {
+
+            transform: translateY(-2px);
+
+            filter: brightness(1.04);
+
+            box-shadow:
+                0 12px 25px
+                rgba(255, 183, 0, 0.3);
+        }
+
+
+        .download-button:active {
+
+            transform: scale(0.98);
+        }
+
+
+        input[type="file"] {
+
+            display: none;
+        }
+
+
+        /* =========================================
+           STATUS MESSAGE
+        ========================================= */
+
+        .status {
+
+            text-align: center;
+
+            margin-top: 15px;
+
+            min-height: 22px;
+
+            font-size: 14px;
+
+            color: #718096;
+        }
+
+
+        .status.success {
+
+            color: #178348;
+
+            font-weight: 600;
+        }
+
+
+        .status.error {
+
+            color: #d62828;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .footer {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #8996a8;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        .footer strong {
+
+            color: #174b9a;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 600px) {
+
+            body {
+
+                padding:
+                    12px
+                    10px
+                    25px;
+            }
+
+
+            .container {
+
+                padding: 18px;
+
+                border-radius: 24px;
+            }
+
+
+            .header h1 {
+
+                font-size: 25px;
+            }
+
+
+            .subtitle {
+
+                font-size: 14px;
+
+                margin-top: 8px;
+            }
+
+
+            .preview-wrapper {
+
+                padding: 4px;
+            }
+
+
+            .upload-label,
+            .download-button {
+
+                min-height: 55px;
+
+                font-size: 16px;
+
+                border-radius: 15px;
+            }
+
+
+            .placeholder {
+
+                font-size: 14px;
+            }
+        }
+
+
+        /* =========================================
+           VERY SMALL PHONES
+        ========================================= */
+
+        @media (max-width: 380px) {
+
+            .container {
+
+                padding: 14px;
+            }
+
+
+            .header h1 {
+
+                font-size: 22px;
+            }
+
+
+            .subtitle {
+
+                font-size: 13px;
+            }
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<div class="container">
 
-    <h1>InspiringPG PFP Maker</h1>
+    <main class="container">
 
-    <p class="subtitle">
-        Choose your photo — the branded frame is added automatically.
-    </p>
 
-    <div class="preview-box">
+        <!-- =====================================
+             HEADER
+        ====================================== -->
 
-        <div class="canvas-wrap">
-            <canvas id="pfpCanvas"></canvas>
+        <header class="header">
+
+            <h1>
+                InspiringPG
+                <span>PFP Maker</span>
+            </h1>
+
+            <div class="subtitle">
+
+                Choose your photo —
+                your official InspiringPG frame
+                is added automatically.
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================
+             PREVIEW
+        ====================================== -->
+
+        <div class="preview-wrapper">
+
+            <div
+                class="preview"
+                id="preview"
+            >
+
+
+                <!-- PLACEHOLDER -->
+
+                <div
+                    class="placeholder"
+                    id="placeholder"
+                >
+
+                    📸<br>
+
+                    Your profile photo
+                    <br>
+
+                    will appear here
+
+                </div>
+
+
+                <!-- USER PHOTO -->
+
+                <img
+                    id="photo"
+                    alt="Selected Profile Photo"
+                >
+
+
+                <!-- BRAND FRAME -->
+
+                <img
+                    src="frame.png"
+                    class="frame"
+                    id="frame"
+                    alt="InspiringPG Official Frame"
+                >
+
+            </div>
+
         </div>
 
-        <label class="upload-label" for="photoInput">
-            📷 Choose Profile Photo
-        </label>
 
-        <input
-            id="photoInput"
-            type="file"
-            accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
-        >
+        <!-- =====================================
+             BUTTONS
+        ====================================== -->
 
-        <button class="download" id="downloadBtn">
-            ⬇️ Download My PFP
-        </button>
-
-        <button class="reset" id="resetBtn">
-            Reset
-        </button>
-
-        <div class="status" id="status"></div>
-
-    </div>
-
-</div>
+        <div class="buttons">
 
 
-<script>
+            <!-- PHOTO INPUT -->
 
-const canvas = document.getElementById("pfpCanvas");
-const ctx = canvas.getContext("2d");
+            <label
+                for="photoInput"
+                class="upload-label"
+            >
 
-const input = document.getElementById("photoInput");
-const downloadBtn = document.getElementById("downloadBtn");
-const resetBtn = document.getElementById("resetBtn");
-const status = document.getElementById("status");
+                📷 &nbsp; Choose Profile Photo
 
-const SIZE = 1200;
-
-canvas.width = SIZE;
-canvas.height = SIZE;
-
-let uploadedImage = null;
+            </label>
 
 
-/* =========================
-   DRAW PFP
-========================= */
-
-function drawPFP() {
-
-    ctx.clearRect(0, 0, SIZE, SIZE);
-
-    /*
-       BACKGROUND
-    */
-
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, SIZE, SIZE);
+            <input
+                type="file"
+                id="photoInput"
+                accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+            >
 
 
-    /*
-       PROFILE PHOTO
-       Perfect circular crop
-    */
+            <!-- DOWNLOAD -->
 
-    ctx.save();
+            <button
+                type="button"
+                class="download-button"
+                id="downloadBtn"
+            >
 
-    ctx.beginPath();
-    ctx.arc(600, 600, 430, 0, Math.PI * 2);
-    ctx.clip();
+                ⬇️ &nbsp; Download My PFP
 
-    if (uploadedImage) {
+            </button>
 
-        const img = uploadedImage;
 
-        const ratio = Math.max(
-            860 / img.width,
-            860 / img.height
+            <!-- STATUS -->
+
+            <div
+                class="status"
+                id="status"
+            ></div>
+
+        </div>
+
+
+        <!-- =====================================
+             FOOTER
+        ====================================== -->
+
+        <div class="footer">
+
+            <strong>InspiringPG</strong><br>
+
+            Inspiring Passion and Grit
+
+        </div>
+
+
+    </main>
+
+
+    <script>
+
+        /* =========================================
+           ELEMENTS
+        ========================================= */
+
+        const photoInput =
+            document.getElementById("photoInput");
+
+        const photo =
+            document.getElementById("photo");
+
+        const placeholder =
+            document.getElementById("placeholder");
+
+        const downloadBtn =
+            document.getElementById("downloadBtn");
+
+        const status =
+            document.getElementById("status");
+
+
+        /* =========================================
+           VARIABLES
+        ========================================= */
+
+        let selectedImage = null;
+
+
+        /* =========================================
+           STATUS FUNCTION
+        ========================================= */
+
+        function setStatus(message, type = "") {
+
+            status.textContent = message;
+
+            status.className =
+                "status " + type;
+        }
+
+
+        /* =========================================
+           PHOTO SELECTION
+        ========================================= */
+
+        photoInput.addEventListener(
+            "change",
+            function(event) {
+
+                const file =
+                    event.target.files[0];
+
+
+                if (!file) {
+
+                    return;
+                }
+
+
+                /* Check file type */
+
+                if (
+                    !file.type.startsWith("image/")
+                ) {
+
+                    setStatus(
+                        "Please select an image.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                /* Limit to 20 MB */
+
+                if (
+                    file.size >
+                    20 * 1024 * 1024
+                ) {
+
+                    setStatus(
+                        "Please choose an image smaller than 20 MB.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                const reader =
+                    new FileReader();
+
+
+                reader.onload =
+                    function(e) {
+
+                        selectedImage =
+                            e.target.result;
+
+
+                        photo.src =
+                            selectedImage;
+
+
+                        photo.style.display =
+                            "block";
+
+
+                        placeholder.style.display =
+                            "none";
+
+
+                        setStatus(
+                            "Photo ready! You can download your PFP.",
+                            "success"
+                        );
+
+                    };
+
+
+                reader.onerror =
+                    function() {
+
+                        setStatus(
+                            "Unable to read this photo.",
+                            "error"
+                        );
+
+                    };
+
+
+                reader.readAsDataURL(file);
+
+            }
         );
 
-        const width = img.width * ratio;
-        const height = img.height * ratio;
 
-        const x = 600 - width / 2;
-        const y = 600 - height / 2;
+        /* =========================================
+           IMAGE LOADER
+        ========================================= */
 
-        ctx.drawImage(
-            img,
-            x,
-            y,
-            width,
-            height
-        );
+        function loadImage(src) {
 
-    } else {
+            return new Promise(
+                function(resolve, reject) {
 
-        ctx.fillStyle = "#e9eef7";
-        ctx.fillRect(150,150,900,900);
+                    const img =
+                        new Image();
 
-    }
 
-    ctx.restore();
+                    img.onload =
+                        function() {
 
+                            resolve(img);
 
-    /*
-       MAIN BLUE BORDER
-    */
+                        };
 
-    ctx.beginPath();
-    ctx.arc(600,600,475,0,Math.PI*2);
 
-    ctx.strokeStyle = "#0756c9";
-    ctx.lineWidth = 55;
-    ctx.stroke();
+                    img.onerror =
+                        function() {
 
+                            reject(
+                                new Error(
+                                    "Image could not be loaded."
+                                )
+                            );
 
-    /*
-       GOLD INNER BORDER
-    */
+                        };
 
-    ctx.beginPath();
-    ctx.arc(600,600,442,0,Math.PI*2);
 
-    ctx.strokeStyle = "#fbc21b";
-    ctx.lineWidth = 18;
-    ctx.stroke();
+                    img.src = src;
 
-
-    /*
-       WHITE HIGHLIGHT
-    */
-
-    ctx.beginPath();
-    ctx.arc(600,600,488,0,Math.PI*2);
-
-    ctx.strokeStyle = "rgba(255,255,255,.95)";
-    ctx.lineWidth = 7;
-    ctx.stroke();
-
-
-    /*
-       BLUE OUTER LINE
-    */
-
-    ctx.beginPath();
-    ctx.arc(600,600,505,0,Math.PI*2);
-
-    ctx.strokeStyle = "#003b91";
-    ctx.lineWidth = 8;
-    ctx.stroke();
-
-
-    /*
-       TOP BRANDING PANEL
-    */
-
-    ctx.save();
-
-    ctx.fillStyle = "white";
-
-    roundRect(
-        ctx,
-        335,
-        65,
-        530,
-        145,
-        30
-    );
-
-    ctx.fill();
-
-
-    /*
-       INSPIRINGPG ICON
-    */
-
-    ctx.fillStyle = "#8dc63f";
-
-    ctx.beginPath();
-    ctx.moveTo(390,95);
-    ctx.lineTo(425,75);
-    ctx.lineTo(425,175);
-    ctx.lineTo(390,195);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.fillStyle = "#159fe3";
-
-    ctx.beginPath();
-    ctx.moveTo(435,75);
-    ctx.lineTo(475,98);
-    ctx.lineTo(475,175);
-    ctx.lineTo(435,195);
-    ctx.closePath();
-    ctx.fill();
-
-
-    /*
-       INSPIRINGPG TEXT
-    */
-
-    ctx.fillStyle = "#28328c";
-
-    ctx.font = "bold 52px Arial";
-    ctx.textAlign = "left";
-
-    ctx.fillText(
-        "InspiringPG",
-        500,
-        140
-    );
-
-    ctx.fillStyle = "#666";
-
-    ctx.font = "24px Arial";
-
-    ctx.fillText(
-        "Inspiring Passion and Grit",
-        502,
-        175
-    );
-
-    ctx.restore();
-
-
-    /*
-       BOTTOM G FIBER PANEL
-    */
-
-    ctx.save();
-
-    ctx.fillStyle = "white";
-
-    roundRect(
-        ctx,
-        320,
-        975,
-        560,
-        150,
-        32
-    );
-
-    ctx.fill();
-
-    ctx.strokeStyle = "#0b3f91";
-    ctx.lineWidth = 8;
-
-    roundRect(
-        ctx,
-        320,
-        975,
-        560,
-        150,
-        32
-    );
-
-    ctx.stroke();
-
-
-    /*
-       G FIBER LOGO
-    */
-
-    ctx.fillStyle = "#fbc21b";
-
-    ctx.font = "bold 78px Arial";
-
-    ctx.textAlign = "center";
-
-    ctx.fillText(
-        "G",
-        430,
-        1065
-    );
-
-
-    ctx.fillStyle = "#163e91";
-
-    ctx.font = "bold 48px Arial";
-
-    ctx.fillText(
-        "FIBER",
-        600,
-        1045
-    );
-
-    ctx.fillStyle = "#fbc21b";
-
-    ctx.font = "bold 34px Arial";
-
-    ctx.fillText(
-        "PLAN",
-        600,
-        1085
-    );
-
-
-    /*
-       WIFI SYMBOL
-    */
-
-    ctx.strokeStyle = "#163e91";
-    ctx.lineWidth = 8;
-
-    ctx.beginPath();
-    ctx.arc(
-        720,
-        1030,
-        25,
-        Math.PI * 1.2,
-        Math.PI * 1.8
-    );
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(
-        720,
-        1030,
-        15,
-        Math.PI * 1.2,
-        Math.PI * 1.8
-    );
-    ctx.stroke();
-
-    ctx.restore();
-
-
-    /*
-       DECORATIVE SIDE ELEMENTS
-    */
-
-    drawSideAccent(150, 600, false);
-    drawSideAccent(1050, 600, true);
-
-
-    /*
-       SPARKLES
-    */
-
-    sparkle(190,280);
-    sparkle(1010,850);
-
-}
-
-
-/* =========================
-   HELPERS
-========================= */
-
-function roundRect(ctx,x,y,w,h,r){
-
-    ctx.beginPath();
-
-    ctx.moveTo(x+r,y);
-
-    ctx.lineTo(x+w-r,y);
-
-    ctx.quadraticCurveTo(
-        x+w,y,
-        x+w,y+r
-    );
-
-    ctx.lineTo(x+w,y+h-r);
-
-    ctx.quadraticCurveTo(
-        x+w,y+h,
-        x+w-r,y+h
-    );
-
-    ctx.lineTo(x+r,y+h);
-
-    ctx.quadraticCurveTo(
-        x,y+h,
-        x,y+h-r
-    );
-
-    ctx.lineTo(x,y+r);
-
-    ctx.quadraticCurveTo(
-        x,y,
-        x+r,y
-    );
-
-    ctx.closePath();
-}
-
-
-function drawSideAccent(x,y,right){
-
-    ctx.save();
-
-    ctx.fillStyle = "#fbc21b";
-
-    ctx.beginPath();
-
-    if(!right){
-
-        ctx.moveTo(x,y-60);
-        ctx.lineTo(x+35,y-30);
-        ctx.lineTo(x+35,y+30);
-        ctx.lineTo(x,y+60);
-
-    }else{
-
-        ctx.moveTo(x,y-60);
-        ctx.lineTo(x-35,y-30);
-        ctx.lineTo(x-35,y+30);
-        ctx.lineTo(x,y+60);
-
-    }
-
-    ctx.closePath();
-
-    ctx.fill();
-
-    ctx.restore();
-}
-
-
-function sparkle(x,y){
-
-    ctx.save();
-
-    ctx.strokeStyle = "#ffffff";
-    ctx.lineWidth = 8;
-
-    ctx.beginPath();
-
-    ctx.moveTo(x-25,y);
-    ctx.lineTo(x+25,y);
-
-    ctx.moveTo(x,y-25);
-    ctx.lineTo(x,y+25);
-
-    ctx.stroke();
-
-    ctx.restore();
-}
-
-
-/* =========================
-   PHOTO UPLOAD
-========================= */
-
-input.addEventListener("change", function(e){
-
-    const file = e.target.files[0];
-
-    if(!file) return;
-
-    status.textContent = "";
-
-    /*
-       IMPORTANT:
-       FileReader is used instead of createImageBitmap.
-
-       This makes the uploader much more compatible
-       with iPhone Safari and Android browsers.
-    */
-
-    const reader = new FileReader();
-
-    reader.onload = function(event){
-
-        const img = new Image();
-
-        img.onload = function(){
-
-            uploadedImage = img;
-
-            drawPFP();
-
-            status.textContent = "";
-
-        };
-
-        img.onerror = function(){
-
-            status.textContent =
-                "Could not read that photo. Please try a JPG or PNG.";
-
-        };
-
-        img.src = event.target.result;
-
-    };
-
-    reader.onerror = function(){
-
-        status.textContent =
-            "Could not read that photo. Please try again.";
-
-    };
-
-    reader.readAsDataURL(file);
-
-});
-
-
-/* =========================
-   DOWNLOAD
-========================= */
-
-downloadBtn.addEventListener("click", function(){
-
-    if(!uploadedImage){
-
-        status.textContent =
-            "Please choose your profile photo first.";
-
-        return;
-
-    }
-
-    canvas.toBlob(function(blob){
-
-        if(!blob){
-
-            status.textContent =
-                "Could not create the image.";
-
-            return;
+                }
+            );
 
         }
 
-        const url = URL.createObjectURL(blob);
 
-        const a = document.createElement("a");
+        /* =========================================
+           DOWNLOAD FUNCTION
+        ========================================= */
 
-        a.href = url;
-        a.download = "InspiringPG-PFP.png";
-
-        document.body.appendChild(a);
-
-        a.click();
-
-        document.body.removeChild(a);
-
-        setTimeout(function(){
-
-            URL.revokeObjectURL(url);
-
-        },1000);
-
-    }, "image/png");
-
-});
+        downloadBtn.addEventListener(
+            "click",
+            async function() {
 
 
-/* =========================
-   RESET
-========================= */
+                /* No photo */
 
-resetBtn.addEventListener("click", function(){
+                if (!selectedImage) {
 
-    uploadedImage = null;
+                    setStatus(
+                        "Please choose a profile photo first.",
+                        "error"
+                    );
 
-    input.value = "";
-
-    status.textContent = "";
-
-    drawPFP();
-
-});
+                    return;
+                }
 
 
-/* INITIAL */
+                try {
 
-drawPFP();
+                    setStatus(
+                        "Preparing your PFP..."
+                    );
 
-</script>
+
+                    /* Load user image */
+
+                    const userImage =
+                        await loadImage(
+                            selectedImage
+                        );
+
+
+                    /* Load frame */
+
+                    const frameImage =
+                        await loadImage(
+                            "frame.png"
+                        );
+
+
+                    /* =================================
+                       CREATE CANVAS
+                    ================================= */
+
+                    const canvas =
+                        document.createElement(
+                            "canvas"
+                        );
+
+
+                    const ctx =
+                        canvas.getContext(
+                            "2d"
+                        );
+
+
+                    canvas.width =
+                        1080;
+
+
+                    canvas.height =
+                        1080;
+
+
+                    /* =================================
+                       WHITE BACKGROUND
+                    ================================= */
+
+                    ctx.fillStyle =
+                        "#ffffff";
+
+
+                    ctx.fillRect(
+                        0,
+                        0,
+                        1080,
+                        1080
+                    );
+
+
+                    /* =================================
+                       PHOTO SIZE
+
+                       This matches the opening
+                       in the frame.
+                    ================================= */
+
+                    const photoSize =
+                        700;
+
+
+                    const photoX =
+                        (1080 - photoSize) / 2;
+
+
+                    const photoY =
+                        (1080 - photoSize) / 2;
+
+
+                    /* =================================
+                       CIRCULAR PHOTO CLIPPING
+                    ================================= */
+
+                    ctx.save();
+
+
+                    ctx.beginPath();
+
+
+                    ctx.arc(
+                        540,
+                        540,
+                        photoSize / 2,
+                        0,
+                        Math.PI * 2
+                    );
+
+
+                    ctx.closePath();
+
+
+                    ctx.clip();
+
+
+                    /* =================================
+                       COVER IMAGE
+
+                       Makes the photo fill
+                       the circular area.
+                    ================================= */
+
+                    const scale =
+                        Math.max(
+
+                            photoSize /
+                            userImage.width,
+
+                            photoSize /
+                            userImage.height
+
+                        );
+
+
+                    const imageWidth =
+                        userImage.width *
+                        scale;
+
+
+                    const imageHeight =
+                        userImage.height *
+                        scale;
+
+
+                    const imageX =
+                        540 -
+                        imageWidth / 2;
+
+
+                    const imageY =
+                        540 -
+                        imageHeight / 2;
+
+
+                    ctx.drawImage(
+
+                        userImage,
+
+                        imageX,
+                        imageY,
+
+                        imageWidth,
+                        imageHeight
+
+                    );
+
+
+                    ctx.restore();
+
+
+                    /* =================================
+                       FRAME ON TOP
+                    ================================= */
+
+                    ctx.drawImage(
+
+                        frameImage,
+
+                        0,
+                        0,
+
+                        1080,
+                        1080
+
+                    );
+
+
+                    /* =================================
+                       CREATE DOWNLOAD
+                    ================================= */
+
+                    canvas.toBlob(
+                        function(blob) {
+
+                            if (!blob) {
+
+                                setStatus(
+                                    "Could not create the image.",
+                                    "error"
+                                );
+
+                                return;
+                            }
+
+
+                            const url =
+                                URL.createObjectURL(
+                                    blob
+                                );
+
+
+                            const link =
+                                document.createElement(
+                                    "a"
+                                );
+
+
+                            link.href =
+                                url;
+
+
+                            link.download =
+                                "InspiringPG-PFP.png";
+
+
+                            document.body.appendChild(
+                                link
+                            );
+
+
+                            link.click();
+
+
+                            document.body.removeChild(
+                                link
+                            );
+
+
+                            setTimeout(
+                                function() {
+
+                                    URL.revokeObjectURL(
+                                        url
+                                    );
+
+                                },
+                                1000
+                            );
+
+
+                            setStatus(
+                                "Your InspiringPG PFP is ready! 🎉",
+                                "success"
+                            );
+
+                        },
+
+                        "image/png"
+                    );
+
+
+                }
+
+                catch(error) {
+
+                    console.error(error);
+
+
+                    setStatus(
+
+                        "Something went wrong. Make sure frame.png is uploaded to GitHub.",
+
+                        "error"
+
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
+
 
 </body>
+
 </html>
